@@ -1,0 +1,8 @@
+name: Bungee Pandora
+version: ${pom.version}
+
+description: Bungee plugin with many miscellaneous features specifically created for Addstar MC
+
+main: au.com.addstar.bpandora.MasterPlugin
+
+depends: [Yamler]
