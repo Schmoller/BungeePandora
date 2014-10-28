@@ -44,7 +44,7 @@
     <dependency>
       <groupId>net.md-5</groupId>
       <artifactId>bungeecord-api</artifactId>
-      <version>1.7-SNAPSHOT</version>
+      <version>1.8-tab-SNAPSHOT</version>
       <scope>provided</scope>
       <optional>true</optional>
   	</dependency>
@@ -55,6 +55,12 @@
       <scope>provided</scope>
 	  <optional>true</optional>
 	</dependency>
+  	<dependency>
+  		<groupId>au.com.addstar</groupId>
+  		<artifactId>BungeeChat-Proxy</artifactId>
+  		<version>1.0.1-SNAPSHOT</version>
+  		<scope>provided</scope>
+  	</dependency>
   </dependencies>
   
   <build>

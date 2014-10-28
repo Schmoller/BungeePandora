@@ -39,6 +39,7 @@ public class MasterPlugin extends Plugin
 	private void registerModules()
 	{
 		registerModule("MultiLoginBlocker", "au.com.addstar.bpandora.modules.MultiLoginBlocker");
+		registerModule("VanishedHider", "au.com.addstar.bpandora.modules.VanishedPlayerHider", "BungeeChat-Proxy");
 		
 		//TODO: Register additional modules here
 	}
