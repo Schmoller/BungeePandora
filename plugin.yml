@@ -5,4 +5,4 @@ description: Bungee plugin with many miscellaneous features specifically created
 
 main: au.com.addstar.bpandora.MasterPlugin
 
-depends: [Yamler, BungeeChat-Proxy]
+depends: [Yamler, BungeeChat]
