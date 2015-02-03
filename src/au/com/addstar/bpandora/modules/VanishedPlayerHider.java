@@ -5,7 +5,7 @@ import java.util.Iterator;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.ServerTabCompleteEvent;
+import net.md_5.bungee.api.event.TabCompleteResponseEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import au.com.addstar.bc.BungeeChat;
@@ -48,7 +48,7 @@ public class VanishedPlayerHider implements Module, Listener
 	}
 	
 	@EventHandler
-	public void onServerTabComplete(ServerTabCompleteEvent event)
+	public void onServerTabComplete(TabCompleteResponseEvent event)
 	{
 		ProxiedPlayer player = (ProxiedPlayer)event.getReceiver();
 		if (player.hasPermission("vanish.see"))
