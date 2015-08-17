@@ -41,6 +41,7 @@ public class MasterPlugin extends Plugin
 		registerModule("MultiLoginBlocker", "au.com.addstar.bpandora.modules.MultiLoginBlocker");
 		registerModule("VanishedHider", "au.com.addstar.bpandora.modules.VanishedPlayerHider", "BungeeChat");
 		registerModule("Restarting", "au.com.addstar.bpandora.modules.Restarting");
+		registerModule("PerfMon", "au.com.addstar.bpandora.modules.Perfmon");
 		
 		//TODO: Register additional modules here
 	}
