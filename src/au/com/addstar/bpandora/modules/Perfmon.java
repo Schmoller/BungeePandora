@@ -113,6 +113,14 @@ public class Perfmon implements Module
 	@Override
 	public void onDisable()
 	{
+		try
+		{
+			con.close();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 		outTask.cancel();
 		
 		tracker.setEnabled(false);
