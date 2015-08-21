@@ -141,9 +141,6 @@ public class Perfmon implements Module
 		// do database update only when the timeslot rolls over, or the update time elapses
 		if (currentTimeSlot != lastTimeSlot || System.currentTimeMillis() - lastUpdateTime >= updateInterval)
 		{
-			lastUpdateTime = System.currentTimeMillis();
-			lastTimeSlot = currentTimeSlot;
-			
 			// Get stats
 			PerformanceStatistics stats;
 			if (currentTimeSlot != lastTimeSlot)
@@ -152,6 +149,9 @@ public class Perfmon implements Module
 				stats = tracker.getStatistics();
 			
 			recordStats(stats, currentTimeSlot);
+			
+			lastUpdateTime = System.currentTimeMillis();
+			lastTimeSlot = currentTimeSlot;
 		}
 	}
 	
