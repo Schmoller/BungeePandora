@@ -1,5 +1,5 @@
 name: Bungee Pandora
-version: ${pom.version}
+version: ${plugin.version}
 
 description: Bungee plugin with many miscellaneous features specifically created for Addstar MC
 
