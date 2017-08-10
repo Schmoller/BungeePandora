@@ -10,6 +10,7 @@ import com.google.common.base.Joiner;
 import net.cubespace.Yamler.Config.Comment;
 import net.cubespace.Yamler.Config.Config;
 import net.cubespace.Yamler.Config.InvalidConfigurationException;
+import net.cubespace.Yamler.Config.YamlConfig;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -28,6 +29,8 @@ import au.com.addstar.bc.util.Utilities;
 import au.com.addstar.bpandora.MasterPlugin;
 import au.com.addstar.bpandora.Misc;
 import au.com.addstar.bpandora.Module;
+
+import javax.xml.soap.Text;
 
 public class Restarting implements Module, Listener
 {
@@ -143,17 +146,17 @@ public class Restarting implements Module, Listener
 				
 				// Handle messages
 				if (secondsRemaining == 0)
-					proxy.broadcast(ChatColor.translateAlternateColorCodes('&', config.countdownEndText));
+					proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownEndText)));
 				else if (secondsRemaining < 10)
-					proxy.broadcast(ChatColor.translateAlternateColorCodes('&', config.countdownShort.replace("{time}", String.valueOf(secondsRemaining))));
+					proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownShort.replace("{time}", String.valueOf(secondsRemaining)))));
 				else if (secondsRemaining == 10 && lastAnnounceTime > 10)
-					proxy.broadcast(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", "10 seconds")));
+					proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", "10 seconds"))));
 				else if (secondsRemaining <= 30 && lastAnnounceTime > 30)
-					proxy.broadcast(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", "30 seconds")));
+					proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", "30 seconds"))));
 				else if (secondsRemaining <= 60 && lastAnnounceTime > 60)
-					proxy.broadcast(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", "60 seconds")));
+					proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", "60 seconds"))));
 				else if (secondsRemaining / 60 < lastAnnounceTime / 60 && secondsRemaining > 60)
-					proxy.broadcast(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", ((int)Math.round(secondsRemaining / 60.0)) + " minutes")));
+					proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", ((int)Math.round(secondsRemaining / 60.0)) + " minutes"))));
 				
 				lastAnnounceTime = secondsRemaining;
 			}
@@ -231,7 +234,7 @@ public class Restarting implements Module, Listener
 		// Prevent players from joining within the lockout time
 		if (targetTime - System.currentTimeMillis() < lockoutTime)
 		{
-			event.setCancelReason(ChatColor.translateAlternateColorCodes('&', config.lockoutMessage.replace("{reason}", getRestartReason())));
+			event.setCancelReason(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.lockoutMessage.replace("{reason}", getRestartReason()))));
 			event.setCancelled(true);
 		}
 	}
@@ -421,7 +424,7 @@ public class Restarting implements Module, Listener
 		}
 	}
 	
-	public static class RestartConfig extends Config
+	public static class RestartConfig extends YamlConfig
 	{
 		public String defaultReason = "Unknown";
 		

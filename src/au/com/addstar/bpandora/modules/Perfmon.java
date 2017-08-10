@@ -15,6 +15,7 @@ import com.google.common.collect.Maps;
 import net.cubespace.Yamler.Config.Comment;
 import net.cubespace.Yamler.Config.Config;
 import net.cubespace.Yamler.Config.InvalidConfigurationException;
+import net.cubespace.Yamler.Config.YamlConfig;
 import net.md_5.bungee.api.PerformanceStatistics;
 import net.md_5.bungee.api.PerformanceStatistics.DownstreamStatistics;
 import net.md_5.bungee.api.PerformanceStatistics.PacketInfo;
@@ -291,7 +292,7 @@ public class Perfmon implements Module
 		config = new PerfmonConfig(new File(plugin.getDataFolder(), "perfmon.yml"));
 	}
 	
-	public static class PerfmonConfig extends Config
+	public static class PerfmonConfig extends YamlConfig
 	{
 		PerfmonConfig(File file)
 		{

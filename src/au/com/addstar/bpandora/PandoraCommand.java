@@ -32,7 +32,7 @@ public class PandoraCommand extends Command implements TabExecutor
 			
 			Set<String> modules = mPlugin.getAllModules();
 			
-			ArrayList<String> all = new ArrayList<String>(modules.size());
+			ArrayList<String> all = new ArrayList<>(modules.size());
 			for(String module : modules)
 			{
 				if(mPlugin.isModuleLoaded(module))
@@ -118,7 +118,7 @@ public class PandoraCommand extends Command implements TabExecutor
 	
 	private List<String> matchModules(String module)
 	{
-		ArrayList<String> matching = new ArrayList<String>();
+		ArrayList<String> matching = new ArrayList<>();
 		for(String name : mPlugin.getAllModules())
 		{
 			if(module.isEmpty() || name.startsWith(module))

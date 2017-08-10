@@ -15,51 +15,47 @@ public class Misc
 		
 		Matcher m = dateDiffPattern.matcher(dateDiff);
 		
-		if(m.matches())
-		{
-			int years,months,weeks,days,hours,minutes,seconds;
+		if(m.matches()) {
+			int years, months, weeks, days, hours, minutes, seconds;
 			boolean negative;
-			
-			if(m.group(1) != null)
-				negative = (m.group(1).compareTo("-") == 0);
-			else
-				negative = false;
 
-			if(m.group(2) != null)
+			negative = m.group(1) != null && (m.group(1).compareTo("-") == 0);
+
+			if (m.group(2) != null)
 				years = Integer.parseInt(m.group(2));
 			else
 				years = 0;
-			
-			if(m.group(3) != null)
+
+			if (m.group(3) != null)
 				months = Integer.parseInt(m.group(3));
 			else
 				months = 0;
-			
-			if(m.group(4) != null)
+
+			if (m.group(4) != null)
 				weeks = Integer.parseInt(m.group(4));
 			else
 				weeks = 0;
-			
-			if(m.group(5) != null)
+
+			if (m.group(5) != null)
 				days = Integer.parseInt(m.group(5));
 			else
 				days = 0;
-			
-			if(m.group(6) != null)
+
+			if (m.group(6) != null)
 				hours = Integer.parseInt(m.group(6));
 			else
 				hours = 0;
-			
-			if(m.group(7) != null)
+
+			if (m.group(7) != null)
 				minutes = Integer.parseInt(m.group(7));
 			else
 				minutes = 0;
-			
-			if(m.group(8) != null)
+
+			if (m.group(8) != null)
 				seconds = Integer.parseInt(m.group(8));
 			else
 				seconds = 0;
-			
+
 			// Now calculate the time
 			long time = 0;
 			time += seconds * 1000L;
@@ -69,10 +65,10 @@ public class Misc
 			time += weeks * 504000000L;
 			time += months * 2191500000L;
 			time += years * 26298000000L;
-			
-			if(negative)
+
+			if (negative)
 				time *= -1;
-			
+
 			return time;
 		}
 		

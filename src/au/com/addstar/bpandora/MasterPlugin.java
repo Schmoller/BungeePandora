@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import net.cubespace.Yamler.Config.InvalidConfigurationException;
+import net.cubespace.Yamler.Config.YamlConfig;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -30,10 +31,10 @@ public class MasterPlugin extends Plugin
 	
 	public MasterPlugin()
 	{
-		mAvailableModules = new HashMap<String, ModuleDefinition>();
-		mAvailableModulesByName = new HashMap<String, ModuleDefinition>();
+		mAvailableModules = new HashMap<>();
+		mAvailableModulesByName = new HashMap<>();
 		
-		mLoadedModules = new HashMap<String, Module>();
+		mLoadedModules = new HashMap<>();
 	}
 	
 	private void registerModules()
@@ -65,7 +66,7 @@ public class MasterPlugin extends Plugin
 			return;
 		}
 		
-		mDisabledModules = new HashSet<String>(mConfig.disabledModules.size());
+		mDisabledModules = new HashSet<>(mConfig.disabledModules.size());
 		
 		for(String name : mConfig.disabledModules)
 			mDisabledModules.add(name.toLowerCase());
@@ -147,12 +148,9 @@ public class MasterPlugin extends Plugin
 		return true;
 	}
 	
-	public final boolean enableModule(String module)
-	{
-		if(isModuleLoaded(module))
-			return false;
-		
-		return loadModule(module);
+	public final boolean enableModule(String module) {
+		return !isModuleLoaded(module) && loadModule(module);
+
 	}
 	
 	public final boolean disableModule(String module)
@@ -266,17 +264,11 @@ public class MasterPlugin extends Plugin
 				e.printStackTrace();
 			}
 		}
-		catch(InstantiationException e)
+		catch(InstantiationException | ExceptionInInitializerError e)
 		{
 			getLogger().severe("Failed to instanciate " + name);
 			e.printStackTrace();
-		}
-		catch(ExceptionInInitializerError e)
-		{
-			getLogger().severe("Failed to instanciate " + name);
-			e.printStackTrace();
-		}
-		catch ( IllegalAccessException e )
+		} catch ( IllegalAccessException e )
 		{
 			getLogger().severe("Failed to instanciate " + name + ". No public default constructor available.");
 			e.printStackTrace();
@@ -290,14 +282,14 @@ public class MasterPlugin extends Plugin
 		return null;
 	}
 	
-	public static class Config extends net.cubespace.Yamler.Config.Config
+	public static class Config extends YamlConfig
 	{
 		public Config(File file)
 		{
 			CONFIG_FILE = file;
 		}
 		
-		public ArrayList<String> disabledModules = new ArrayList<String>();
+		public ArrayList<String> disabledModules = new ArrayList<>();
 	}
 	
 	private static class ModuleDefinition
