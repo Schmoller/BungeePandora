@@ -1,19 +1,9 @@
 package au.com.addstar.bpandora.modules;
 
-import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
+import au.com.addstar.bpandora.MasterPlugin;
+import au.com.addstar.bpandora.Module;
 import com.google.common.collect.Maps;
-
 import net.cubespace.Yamler.Config.Comment;
-import net.cubespace.Yamler.Config.Config;
 import net.cubespace.Yamler.Config.InvalidConfigurationException;
 import net.cubespace.Yamler.Config.YamlConfig;
 import net.md_5.bungee.api.PerformanceStatistics;
@@ -24,8 +14,12 @@ import net.md_5.bungee.api.PerformanceTracker;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
-import au.com.addstar.bpandora.MasterPlugin;
-import au.com.addstar.bpandora.Module;
+
+import java.io.File;
+import java.sql.*;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class Perfmon implements Module
 {
@@ -291,8 +285,8 @@ public class Perfmon implements Module
 		
 		config = new PerfmonConfig(new File(plugin.getDataFolder(), "perfmon.yml"));
 	}
-	
-	public static class PerfmonConfig extends YamlConfig
+
+    static class PerfmonConfig extends YamlConfig
 	{
 		PerfmonConfig(File file)
 		{
@@ -300,16 +294,18 @@ public class Perfmon implements Module
 		}
 		
 		@Comment("The interval in minutes between recording stats in the database")
-		public int updateInterval = 5;
+        final
+        int updateInterval = 5;
 		
 		@Comment("The recorded timeslot size in minutes.")
-		public int timeslotLength = 60;
-		
-		public String databaseHost = "localhost";
-		public int databasePort = 3306;
-		public String database = "packetstats";
-		public String databaseUsername = "packetstats";
-		public String databasePassword = "packetstats";
+        final
+        int timeslotLength = 60;
+
+        final String databaseHost = "localhost";
+        final int databasePort = 3306;
+        final String database = "packetstats";
+        final String databaseUsername = "packetstats";
+        final String databasePassword = "packetstats";
 	}
 	
 	private static class StoredPacketInfo
@@ -321,8 +317,8 @@ public class Perfmon implements Module
 		
 		private long inboundSize;
 		private long outboundSize;
-		
-		public void add(PacketInfo packet)
+
+        void add(PacketInfo packet)
 		{
 			inboundCount += packet.getInboundCount();
 			inboundSize += packet.getInboundSize();

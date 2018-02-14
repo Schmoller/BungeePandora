@@ -1,21 +1,15 @@
 package au.com.addstar.bpandora;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 
-public class PandoraCommand extends Command implements TabExecutor
-{
-	private MasterPlugin mPlugin;
+import java.util.*;
+
+class PandoraCommand extends Command implements TabExecutor {
+	private final MasterPlugin mPlugin;
 	
 	public PandoraCommand(MasterPlugin plugin)
 	{
@@ -49,17 +43,17 @@ public class PandoraCommand extends Command implements TabExecutor
 					return ChatColor.stripColor(o1).compareTo(ChatColor.stripColor(o2));
 				}
 			});
-			
-			String moduleList = "";
+
+			StringBuilder moduleList = new StringBuilder();
 			for(String mod : all)
 			{
-				if(!moduleList.isEmpty())
-					moduleList += ", ";
-				
-				moduleList += mod + ChatColor.GRAY;
+				if (moduleList.length() > 0)
+					moduleList.append(", ");
+
+				moduleList.append(mod).append(ChatColor.GRAY);
 			}
-			
-			sender.sendMessage(TextComponent.fromLegacyText(moduleList));
+
+			sender.sendMessage(TextComponent.fromLegacyText(moduleList.toString()));
 		}
 		else if((args.length == 1 || args.length == 2) && args[0].equalsIgnoreCase("reload"))
 		{
@@ -136,11 +130,11 @@ public class PandoraCommand extends Command implements TabExecutor
 			if(args[0].isEmpty())
 				return Arrays.asList("enable", "disable", "reload");
 			if("enable".startsWith(args[0].toLowerCase()))
-				return Arrays.asList("enable");
+				return Collections.singletonList("enable");
 			if("disable".startsWith(args[0].toLowerCase()))
-				return Arrays.asList("disable");
+				return Collections.singletonList("disable");
 			if("reload".startsWith(args[0].toLowerCase()))
-				return Arrays.asList("reload");
+				return Collections.singletonList("reload");
 		}
 		else if(args.length == 2 && args[0].equalsIgnoreCase("reload"))
 			return matchModules(args[1]);

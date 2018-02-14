@@ -1,14 +1,11 @@
 package au.com.addstar.bpandora.modules;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
-
+import au.com.addstar.bc.util.Utilities;
+import au.com.addstar.bpandora.MasterPlugin;
+import au.com.addstar.bpandora.Misc;
+import au.com.addstar.bpandora.Module;
 import com.google.common.base.Joiner;
-
 import net.cubespace.Yamler.Config.Comment;
-import net.cubespace.Yamler.Config.Config;
 import net.cubespace.Yamler.Config.InvalidConfigurationException;
 import net.cubespace.Yamler.Config.YamlConfig;
 import net.md_5.bungee.api.ChatColor;
@@ -25,12 +22,11 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.event.EventHandler;
-import au.com.addstar.bc.util.Utilities;
-import au.com.addstar.bpandora.MasterPlugin;
-import au.com.addstar.bpandora.Misc;
-import au.com.addstar.bpandora.Module;
 
-import javax.xml.soap.Text;
+import java.io.File;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class Restarting implements Module, Listener
 {
@@ -162,8 +158,8 @@ public class Restarting implements Module, Listener
 			}
 		}, 1, 1, TimeUnit.SECONDS);
 	}
-	
-	public void restart()
+
+	private void restart()
 	{
 		final String kickMessage = ChatColor.translateAlternateColorCodes('&', config.kick.replace("{reason}", getRestartReason()));
 		// Disconnect all players nicely
@@ -241,7 +237,7 @@ public class Restarting implements Module, Listener
 	
 	private class RestartInCommand extends Command
 	{
-		public RestartInCommand()
+		RestartInCommand()
 		{
 			super("!restart", "bungeecord.end", "!end", "!endin", "!restartin");
 		}
@@ -298,7 +294,7 @@ public class Restarting implements Module, Listener
 	
 	private class RestartWhenCommand extends Command
 	{
-		public RestartWhenCommand()
+		RestartWhenCommand()
 		{
 			super("!restartwhen", "bungeecord.end", "!endwhen");
 		}
@@ -374,12 +370,12 @@ public class Restarting implements Module, Listener
 	
 	private class RestartCancelCommand extends Command
 	{
-		public RestartCancelCommand()
+		RestartCancelCommand()
 		{
 			super("!restartcancel", "bungeecord.end");
 		}
-		
-		@SuppressWarnings( "deprecation" )
+
+		@SuppressWarnings({"deprecation", "Duplicates"})
 		@Override
 		public void execute( CommandSender sender, String[] args )
 		{
@@ -400,7 +396,7 @@ public class Restarting implements Module, Listener
 				sender.sendMessage(ChatColor.RED + "No restart is in progress");
 				return;
 			}
-			
+
 			if (isWaitingForPlayers)
 			{
 				if (playerWaitTask != null)
@@ -409,41 +405,41 @@ public class Restarting implements Module, Listener
 				
 				isWaitingForPlayers = false;
 			}
-			
+
 			if (isShuttingDown)
 			{
 				if (restartTask != null)
 					restartTask.cancel();
 				restartTask = null;
-				
+
 				isShuttingDown = false;
 			}
-			
+
 			sender.sendMessage(ChatColor.GREEN + "You have aborted a restart");
 			log.warning(ChatColor.GOLD + "[Restart] Restart aborted");
 		}
 	}
-	
-	public static class RestartConfig extends YamlConfig
-	{
-		public String defaultReason = "Unknown";
-		
-		public String countdownStartText = "&d[&cAttention&d] &eThe network gateway is restarting in {time}. &aYou will be disconnected.";
-		public String countdownEndText = "&d[&cNotice&d] &eRestarting...";
-		public String countdownTime = "&d[&cNotice&d] &aNetwork gateway restart in &e{time}";
-		public String countdownShort = "&c{time}";
-		
-		public String kick = "The network gateway is restarting.";
-		public String lockoutMessage = "This server will be restarting soon. Please come back later";
+
+	static class RestartConfig extends YamlConfig {
+		final String defaultReason = "Unknown";
+
+		final String countdownStartText = "&d[&cAttention&d] &eThe network gateway is restarting in {time}. &aYou will be disconnected.";
+		final String countdownEndText = "&d[&cNotice&d] &eRestarting...";
+		final String countdownTime = "&d[&cNotice&d] &aNetwork gateway restart in &e{time}";
+		final String countdownShort = "&c{time}";
+
+		final String kick = "The network gateway is restarting.";
+		final String lockoutMessage = "This server will be restarting soon. Please come back later";
 		
 		@Comment("The time to wait to check if the player count increases above the limit")
-		public String playerWaitTime = "2m";
+		final
+		String playerWaitTime = "2m";
 		@Comment("If the player count goes above the set min players + this threshold, then the wait will be aborted")
 		public int playerAbortThreshold = 3;
-		
-		public boolean enableLockout = true;
-		public String lockoutTime = "10m";
-		
-		public boolean allowNonConsole = true;
+
+		final boolean enableLockout = true;
+		final String lockoutTime = "10m";
+
+		final boolean allowNonConsole = true;
 	}
 }

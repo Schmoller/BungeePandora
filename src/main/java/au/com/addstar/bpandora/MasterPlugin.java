@@ -1,26 +1,21 @@
 package au.com.addstar.bpandora;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Map.Entry;
-
 import net.cubespace.Yamler.Config.InvalidConfigurationException;
 import net.cubespace.Yamler.Config.YamlConfig;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 
+import java.io.File;
+import java.util.*;
+import java.util.Map.Entry;
+
 public class MasterPlugin extends Plugin
 {
-	private HashMap<String, Module> mLoadedModules;
-	
-	private HashMap<String, ModuleDefinition> mAvailableModules;
-	private HashMap<String, ModuleDefinition> mAvailableModulesByName;
-	private HashSet<String> mDisabledModules;
-	
+	private final HashMap<String, Module> mLoadedModules;
+
+	private final HashMap<String, ModuleDefinition> mAvailableModules;
+	private final HashMap<String, ModuleDefinition> mAvailableModulesByName;
+
 	private Config mConfig;
 	
 	private static MasterPlugin mInstance;
@@ -65,8 +60,8 @@ public class MasterPlugin extends Plugin
 			mInstance = null;
 			return;
 		}
-		
-		mDisabledModules = new HashSet<>(mConfig.disabledModules.size());
+
+		HashSet<String> mDisabledModules = new HashSet<>(mConfig.disabledModules.size());
 		
 		for(String name : mConfig.disabledModules)
 			mDisabledModules.add(name.toLowerCase());
@@ -184,7 +179,7 @@ public class MasterPlugin extends Plugin
 	 * @param moduleClass Class for the module
 	 * @param dependencies Names of plugins needed for this module to load
 	 */
-	public void registerModule(String name, String moduleClass, String... dependencies)
+	private void registerModule(String name, String moduleClass, String... dependencies)
 	{
 		ModuleDefinition def = new ModuleDefinition(name, moduleClass, dependencies);
 		mAvailableModules.put(moduleClass, def);
@@ -207,22 +202,21 @@ public class MasterPlugin extends Plugin
 	private boolean loadModule(String name)
 	{
 		ModuleDefinition module = mAvailableModulesByName.get(name);
-		
-		String missingDeps = "";
+
+		StringBuilder missingDeps = new StringBuilder();
 		
 		for(String plugin : module.dependencies)
 		{
 			if(getProxy().getPluginManager().getPlugin(plugin) == null)
 			{
-				if(!missingDeps.isEmpty())
-					missingDeps += ", ";
-				missingDeps += plugin;
+				if (missingDeps.length() > 0)
+					missingDeps.append(", ");
+				missingDeps.append(plugin);
 			}
 		}
-		
-		if(!missingDeps.isEmpty())
-		{
-			getLogger().info(String.format("[%s] Not enabling, missing dependencies: %s", name, missingDeps));
+
+		if (missingDeps.length() > 0) {
+			getLogger().info(String.format("[%s] Not enabling, missing dependencies: %s", name, missingDeps.toString()));
 			return false;
 		}
 		
@@ -281,23 +275,23 @@ public class MasterPlugin extends Plugin
 		
 		return null;
 	}
-	
-	public static class Config extends YamlConfig
-	{
-		public Config(File file)
+
+	static class Config extends YamlConfig {
+		Config(File file)
 		{
 			CONFIG_FILE = file;
 		}
-		
-		public ArrayList<String> disabledModules = new ArrayList<>();
+
+		final ArrayList<String> disabledModules = new ArrayList<>();
 	}
 	
 	private static class ModuleDefinition
 	{
-		public final String name;
-		public final String moduleClass;
-		public final String[] dependencies;
-		public ModuleDefinition(String name, String moduleClass, String... dependencies)
+		final String name;
+		final String moduleClass;
+		final String[] dependencies;
+
+		ModuleDefinition(String name, String moduleClass, String... dependencies)
 		{
 			this.name = name;
 			this.moduleClass = moduleClass;

@@ -1,12 +1,12 @@
 package au.com.addstar.bpandora.modules;
 
+import au.com.addstar.bpandora.MasterPlugin;
+import au.com.addstar.bpandora.Module;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import au.com.addstar.bpandora.MasterPlugin;
-import au.com.addstar.bpandora.Module;
 
 public class MultiLoginBlocker implements Module, Listener
 {

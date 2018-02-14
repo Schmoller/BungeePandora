@@ -1,16 +1,16 @@
 package au.com.addstar.bpandora.modules;
 
-import java.util.Iterator;
-
+import au.com.addstar.bc.BungeeChat;
+import au.com.addstar.bpandora.MasterPlugin;
+import au.com.addstar.bpandora.Module;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.TabCompleteResponseEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import au.com.addstar.bc.BungeeChat;
-import au.com.addstar.bpandora.MasterPlugin;
-import au.com.addstar.bpandora.Module;
+
+import java.util.Iterator;
 
 public class VanishedPlayerHider implements Module, Listener
 {
