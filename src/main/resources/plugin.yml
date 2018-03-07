@@ -1,0 +1,7 @@
+name: Bungee-Pandora
+version: ${plugin.version}
+description: ${project.description}
+
+main: ${mainClass}
+
+depends: [Yamler, BungeeChat]

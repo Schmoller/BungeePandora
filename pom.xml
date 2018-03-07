@@ -5,13 +5,16 @@
   <groupId>au.com.addstar</groupId>
   <artifactId>BungeePandora</artifactId>
   <version>1.1.0-SNAPSHOT</version>
+
   <packaging>jar</packaging>
   <name>BungeePandora</name>
+  <description>Bungee plugin with many miscellaneous features specifically created for Addstar MC</description>
   <properties>
     <build.number />
     <plugin.version>${project.version}-${build.number}</plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <bungee.version>1.12-SNAPSHOT</bungee.version>
+    <mainClass>${project.groupId}.bpandora.MasterPlguin</mainClass>
   </properties>
   <scm>
     <connection>scm:git:git@github.com:AddstarMC/BungeePandora.git</connection>
@@ -116,16 +119,16 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.6.2</version>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.1</version>
+        <version>2.5.3</version>
       </plugin>
     </plugins>
   </build>
