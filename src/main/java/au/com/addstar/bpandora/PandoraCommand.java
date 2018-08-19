@@ -35,14 +35,7 @@ class PandoraCommand extends Command implements TabExecutor {
 					all.add(ChatColor.RED + module);
 			}
 
-			Collections.sort(all, new Comparator<String>()
-			{
-				@Override
-				public int compare( String o1, String o2 )
-				{
-					return ChatColor.stripColor(o1).compareTo(ChatColor.stripColor(o2));
-				}
-			});
+			all.sort((o1, o2) -> ChatColor.stripColor(o1).compareTo(ChatColor.stripColor(o2)));
 
 			StringBuilder moduleList = new StringBuilder();
 			for(String mod : all)

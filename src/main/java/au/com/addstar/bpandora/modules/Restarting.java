@@ -125,37 +125,32 @@ public class Restarting implements Module, Listener
 		log.warning(ChatColor.GOLD + "[Restart] Starting restart countdown of " + Utilities.timeDiffToString(countdownTime));
 		
 		// Begin the countdown task
-		restartTask = proxy.getScheduler().schedule(plugin, new Runnable()
-		{
-			@Override
-			public void run()
+		restartTask = proxy.getScheduler().schedule(plugin, () -> {
+			long remainingTime = targetTime - System.currentTimeMillis();
+			long secondsRemaining = TimeUnit.MILLISECONDS.toSeconds(remainingTime);
+
+			if (remainingTime <= 0)
 			{
-				long remainingTime = targetTime - System.currentTimeMillis();
-				long secondsRemaining = TimeUnit.MILLISECONDS.toSeconds(remainingTime);
-				
-				if (remainingTime <= 0)
-				{
-					restartTask.cancel();
-					restart();
-					return;
-				}
-				
-				// Handle messages
-				if (secondsRemaining == 0)
-					proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownEndText)));
-				else if (secondsRemaining < 10)
-					proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownShort.replace("{time}", String.valueOf(secondsRemaining)))));
-				else if (secondsRemaining == 10 && lastAnnounceTime > 10)
-					proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", "10 seconds"))));
-				else if (secondsRemaining <= 30 && lastAnnounceTime > 30)
-					proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", "30 seconds"))));
-				else if (secondsRemaining <= 60 && lastAnnounceTime > 60)
-					proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", "60 seconds"))));
-				else if (secondsRemaining / 60 < lastAnnounceTime / 60 && secondsRemaining > 60)
-					proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", ((int)Math.round(secondsRemaining / 60.0)) + " minutes"))));
-				
-				lastAnnounceTime = secondsRemaining;
+				restartTask.cancel();
+				restart();
+				return;
 			}
+
+			// Handle messages
+			if (secondsRemaining == 0)
+				proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownEndText)));
+			else if (secondsRemaining < 10)
+				proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownShort.replace("{time}", String.valueOf(secondsRemaining)))));
+			else if (secondsRemaining == 10 && lastAnnounceTime > 10)
+				proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", "10 seconds"))));
+			else if (secondsRemaining <= 30 && lastAnnounceTime > 30)
+				proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", "30 seconds"))));
+			else if (secondsRemaining <= 60 && lastAnnounceTime > 60)
+				proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", "60 seconds"))));
+			else if (secondsRemaining / 60 < lastAnnounceTime / 60 && secondsRemaining > 60)
+				proxy.broadcast(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', config.countdownTime.replace("{time}", ((int)Math.round(secondsRemaining / 60.0)) + " minutes"))));
+
+			lastAnnounceTime = secondsRemaining;
 		}, 1, 1, TimeUnit.SECONDS);
 	}
 
@@ -167,14 +162,9 @@ public class Restarting implements Module, Listener
 		for (ProxiedPlayer player : proxy.getPlayers())
 			player.disconnect(message);
 		
-		proxy.getScheduler().schedule(plugin, new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				// Now stop the proxy
-				proxy.stop(kickMessage);
-			}
+		proxy.getScheduler().schedule(plugin, () -> {
+			// Now stop the proxy
+			proxy.stop(kickMessage);
 		}, 1, TimeUnit.SECONDS);
 	}
 	
@@ -191,14 +181,9 @@ public class Restarting implements Module, Listener
 		{
 			if (playerWaitTask == null)
 			{
-				playerWaitTask = proxy.getScheduler().schedule(plugin, new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						isWaitingForPlayers = false;
-						startRestartSequence();
-					}
+				playerWaitTask = proxy.getScheduler().schedule(plugin, () -> {
+					isWaitingForPlayers = false;
+					startRestartSequence();
 				}, playerWaitTime, TimeUnit.MILLISECONDS);
 				
 				log.warning(ChatColor.GOLD + "[Restart] Min players goal has been reached. Now waiting " + TimeUnit.MILLISECONDS.toSeconds(playerWaitTime) + " seconds for players count to rise above " + getMaxPlayers());

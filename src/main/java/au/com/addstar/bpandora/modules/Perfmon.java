@@ -100,7 +100,7 @@ public class Perfmon implements Module {
             Properties props = new Properties();
             props.setProperty("user", config.databaseUsername);
             props.setProperty("password", config.databasePassword);
-            props.setProperty("userSSL", config.databaseSSL.toString());
+            props.setProperty("useSSL", config.databaseSSL.toString());
             con = DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s", config.databaseHost, config
                     .databasePort, config.database), props);
             insertUpstream = con.prepareStatement("INSERT INTO `UpstreamStats` VALUES (?, ?, ?, NOW(), ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `updated`=NOW(),`count`=VALUES(`count`),`size`=VALUES(`size`),`active_connections`=VALUES(`active_connections`);");
