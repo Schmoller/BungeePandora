@@ -14,7 +14,7 @@
     <plugin.version>${project.version}-${build.number}</plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <bungee.version>1.13-SNAPSHOT</bungee.version>
-    <mainClass>${project.groupId}.bpandora.MasterPlguin</mainClass>
+    <mainClass>${project.groupId}.bpandora.MasterPlugin</mainClass>
   </properties>
   <scm>
     <connection>scm:git:git@github.com:AddstarMC/BungeePandora.git</connection>
