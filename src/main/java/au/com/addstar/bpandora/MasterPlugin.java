@@ -19,6 +19,7 @@ public class MasterPlugin extends Plugin
 	private Config mConfig;
 	
 	private static MasterPlugin mInstance;
+	@SuppressWarnings("unused")
 	public static MasterPlugin getInstance()
 	{
 		return mInstance;
@@ -290,6 +291,7 @@ public class MasterPlugin extends Plugin
 		final ArrayList<String> disabledModules = new ArrayList<>();
 	}
 	
+	@SuppressWarnings("unused")
 	private static class ModuleDefinition
 	{
 		final String name;

@@ -13,7 +13,7 @@
     <build.number />
     <plugin.version>${project.version}-${build.number}</plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <bungee.version>1.13-SNAPSHOT</bungee.version>
+    <bungee.version>1.14-SNAPSHOT</bungee.version>
     <mainClass>${project.groupId}.bpandora.MasterPlugin</mainClass>
   </properties>
   <scm>
@@ -26,19 +26,19 @@
     <repository>
       <id>maven.addstar.com.au</id>
       <name>maven.addstar.com.au-releases</name>
-      <url>http://maven.addstar.com.au/artifactory/ext-release-local</url>
+      <url>https://maven.addstar.com.au/artifactory/ext-release-local</url>
     </repository>
     <snapshotRepository>
       <id>maven.addstar.com.au</id>
       <name>maven.addstar.com.au-snapshots</name>
-      <url>http://maven.addstar.com.au/artifactory/ext-snapshot-local</url>
+      <url>https://maven.addstar.com.au/artifactory/ext-snapshot-local</url>
     </snapshotRepository>
   </distributionManagement>
   <developers>
     <developer>
       <id>AddstarMC</id>
       <name>AddstarMC</name>
-      <url>http://github.com/AddstarMC</url>
+      <url>https://github.com/AddstarMC</url>
       <roles>
         <role>developer</role>
         <role>maintainer</role>
@@ -50,14 +50,14 @@
     <!-- Addstar repos -->
     <repository>
       <id>addstar-repo</id>
-      <url>http://maven.addstar.com.au/artifactory/ext-release-local</url>
+      <url>https://maven.addstar.com.au/artifactory/ext-release-local</url>
       <snapshots>
       	<enabled>false</enabled>
       </snapshots>
     </repository>
     <repository>
       <id>addstar-snapshot-repo</id>
-      <url>http://maven.addstar.com.au/artifactory/ext-snapshot-local</url>
+      <url>https://maven.addstar.com.au/artifactory/ext-snapshot-local</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>

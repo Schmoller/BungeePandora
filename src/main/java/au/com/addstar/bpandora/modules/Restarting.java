@@ -227,7 +227,6 @@ public class Restarting implements Module, Listener
 			super("!restart", "bungeecord.end", "!end", "!endin", "!restartin");
 		}
 
-		@SuppressWarnings( "deprecation" )
 		@Override
 		public void execute( CommandSender sender, String[] args )
 		{
@@ -239,19 +238,19 @@ public class Restarting implements Module, Listener
 			
 			if (args.length < 1)
 			{
-				sender.sendMessage("Usage: /!restart <countdown> [Message]");
+				sender.sendMessage(TextComponent.fromLegacyText("Usage: /!restart <countdown> [Message]"));
 				return;
 			}
 			
 			if (isWaitingForPlayers)
 			{
-				sender.sendMessage(ChatColor.RED + "A restart wait has already been started. Use !restartcancel to stop it");
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "A restart wait has already been started. Use !restartcancel to stop it"));
 				return;
 			}
 			
 			if (isShuttingDown)
 			{
-				sender.sendMessage(ChatColor.RED + "The restart count down has already started. Use !restartcancel to stop it");
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "The restart count down has already started. Use !restartcancel to stop it"));
 				return;
 			}
 			
@@ -264,7 +263,7 @@ public class Restarting implements Module, Listener
 			
 			if (countDown == 0)
 			{
-				sender.sendMessage(ChatColor.RED + "Illegal count down value. Should be in the format of '5m' or '10m30s");
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Illegal count down value. Should be in the format of '5m' or '10m30s"));
 				return;
 			}
 			
@@ -273,7 +272,7 @@ public class Restarting implements Module, Listener
 			restartReason = reason;
 			startRestartSequence();
 			
-			sender.sendMessage(ChatColor.GOLD + "A restart count down has begun.");
+			sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "A restart count down has begun."));
 		}
 	}
 	
@@ -284,31 +283,30 @@ public class Restarting implements Module, Listener
 			super("!restartwhen", "bungeecord.end", "!endwhen");
 		}
 		
-		@SuppressWarnings( "deprecation" )
 		@Override
 		public void execute( CommandSender sender, String[] args )
 		{
 			if (sender instanceof ProxiedPlayer && !config.allowNonConsole)
 			{
-				sender.sendMessage(ChatColor.RED + "You are not allowed to use this command");
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You are not allowed to use this command"));
 				return;
 			}
 			
 			if (args.length < 2)
 			{
-				sender.sendMessage("Usage: /!restartwhen <playercount> <countdown> [Message]");
+				sender.sendMessage(TextComponent.fromLegacyText("Usage: /!restartwhen <playercount> <countdown> [Message]"));
 				return;
 			}
 			
 			if (isWaitingForPlayers)
 			{
-				sender.sendMessage(ChatColor.RED + "A restart wait has already been started. Use !restartcancel to stop it");
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "A restart wait has already been started. Use !restartcancel to stop it"));
 				return;
 			}
 			
 			if (isShuttingDown)
 			{
-				sender.sendMessage(ChatColor.RED + "The restart count down has already started. Use !restartcancel to stop it");
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "The restart count down has already started. Use !restartcancel to stop it"));
 				return;
 			}
 			
@@ -324,13 +322,13 @@ public class Restarting implements Module, Listener
 				playerCount = Integer.parseInt(args[0]);
 				if (playerCount < 0)
 				{
-					sender.sendMessage(ChatColor.RED + "Cannot have negative player count");
+					sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Cannot have negative player count"));
 					return;
 				}
 			}
 			catch (NumberFormatException e)
 			{
-				sender.sendMessage(ChatColor.RED + "Illegal value for min players");
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Illegal value for min players"));
 				return;
 			}
 			
@@ -339,7 +337,7 @@ public class Restarting implements Module, Listener
 			
 			if (countDown == 0)
 			{
-				sender.sendMessage(ChatColor.RED + "Illegal count down value. Should be in the format of '5m' or '10m30s");
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "Illegal count down value. Should be in the format of '5m' or '10m30s"));
 				return;
 			}
 			
@@ -349,7 +347,7 @@ public class Restarting implements Module, Listener
 			minPlayers = playerCount;
 			countdownTime = countDown;
 			
-			sender.sendMessage(ChatColor.GOLD + "A restart wait has begun. Waiting for player count to drop below " + playerCount + " players");
+			sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GOLD + "A restart wait has begun. Waiting for player count to drop below " + playerCount + " players"));
 		}
 	}
 	
@@ -360,25 +358,24 @@ public class Restarting implements Module, Listener
 			super("!restartcancel", "bungeecord.end");
 		}
 
-		@SuppressWarnings({"deprecation", "Duplicates"})
 		@Override
 		public void execute( CommandSender sender, String[] args )
 		{
 			if (sender instanceof ProxiedPlayer && !config.allowNonConsole)
 			{
-				sender.sendMessage(ChatColor.RED + "You are not allowed to use this command");
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "You are not allowed to use this command"));
 				return;
 			}
 			
 			if (args.length != 0)
 			{
-				sender.sendMessage("Usage: /!restartcancel");
+				sender.sendMessage(TextComponent.fromLegacyText("Usage: /!restartcancel"));
 				return;
 			}
 			
 			if (!isWaitingForPlayers && !isShuttingDown)
 			{
-				sender.sendMessage(ChatColor.RED + "No restart is in progress");
+				sender.sendMessage(TextComponent.fromLegacyText(ChatColor.RED + "No restart is in progress"));
 				return;
 			}
 
@@ -400,7 +397,7 @@ public class Restarting implements Module, Listener
 				isShuttingDown = false;
 			}
 
-			sender.sendMessage(ChatColor.GREEN + "You have aborted a restart");
+			sender.sendMessage(TextComponent.fromLegacyText(ChatColor.GREEN + "You have aborted a restart"));
 			log.warning(ChatColor.GOLD + "[Restart] Restart aborted");
 		}
 	}
