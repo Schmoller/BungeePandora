@@ -1,7 +1,8 @@
-name: Bungee-Pandora
+name: BungeePandora
 version: ${plugin.version}
 description: ${project.description}
 
 main: ${mainClass}
 
-depends: [Yamler, BungeeChat]
+depends: [Yamler]
+softDepends: [BungeeControl-Red]

@@ -1,6 +1,5 @@
 package au.com.addstar.bpandora.modules;
 
-import au.com.addstar.bc.util.Utilities;
 import au.com.addstar.bpandora.MasterPlugin;
 import au.com.addstar.bpandora.Misc;
 import au.com.addstar.bpandora.Module;
@@ -66,8 +65,9 @@ public class Restarting implements Module, Listener
 		config = new RestartConfig();
 		try
 		{
-			config.init(new File(plugin.getDataFolder(), "restart.yml"));
-			
+			File conffile = new File(plugin.getDataFolder(), "restart.yml");
+			config.init(conffile);
+
 			playerWaitTime = Misc.parseDateDiff(config.playerWaitTime);
 			if (config.enableLockout)
 				lockoutTime = Misc.parseDateDiff(config.lockoutTime);
@@ -112,7 +112,7 @@ public class Restarting implements Module, Listener
 	{
 		// Do initial warning broadcast
 		String message = config.countdownStartText
-				.replace("{time}", Utilities.timeDiffToString(countdownTime))
+				.replace("{time}", Misc.timeDiffToString(countdownTime))
 				.replace("{reason}", getRestartReason());
 		message = ChatColor.translateAlternateColorCodes('&', message);
 		proxy.broadcast(TextComponent.fromLegacyText(message));
@@ -122,7 +122,7 @@ public class Restarting implements Module, Listener
 		lastAnnounceTime = countdownTime / 1000;
 		isShuttingDown = true;
 		
-		log.warning(ChatColor.GOLD + "[Restart] Starting restart countdown of " + Utilities.timeDiffToString(countdownTime));
+		log.warning(ChatColor.GOLD + "[Restart] Starting restart countdown of " + Misc.timeDiffToString(countdownTime));
 		
 		// Begin the countdown task
 		restartTask = proxy.getScheduler().schedule(plugin, () -> {
@@ -402,26 +402,26 @@ public class Restarting implements Module, Listener
 		}
 	}
 
-	static class RestartConfig extends YamlConfig {
-		final String defaultReason = "Unknown";
+	public static class RestartConfig extends YamlConfig {
+		public String defaultReason = "Unknown";
 
-		final String countdownStartText = "&d[&cAttention&d] &eThe network gateway is restarting in {time}. &aYou will be disconnected.";
-		final String countdownEndText = "&d[&cNotice&d] &eRestarting...";
-		final String countdownTime = "&d[&cNotice&d] &aNetwork gateway restart in &e{time}";
-		final String countdownShort = "&c{time}";
+		public String countdownStartText = "&d[&cAttention&d] &eThe network gateway is restarting in {time}. &aYou will be disconnected.";
+		public String countdownEndText = "&d[&cNotice&d] &eRestarting...";
+		public String countdownTime = "&d[&cNotice&d] &aNetwork gateway restart in &e{time}";
+		public String countdownShort = "&c{time}";
 
-		final String kick = "The network gateway is restarting.";
-		final String lockoutMessage = "This server will be restarting soon. Please come back later";
+		public String kick = "The network gateway is restarting.";
+		public String lockoutMessage = "This server will be restarting soon. Please come back later";
 		
 		@Comment("The time to wait to check if the player count increases above the limit")
-		final
-		String playerWaitTime = "2m";
+		public String playerWaitTime = "2m";
+
 		@Comment("If the player count goes above the set min players + this threshold, then the wait will be aborted")
 		public int playerAbortThreshold = 3;
 
-		final boolean enableLockout = true;
-		final String lockoutTime = "10m";
+		public boolean enableLockout = true;
+		public String lockoutTime = "10m";
 
-		final boolean allowNonConsole = true;
+		public boolean allowNonConsole = true;
 	}
 }

@@ -36,16 +36,8 @@ public class MasterPlugin extends Plugin
 	private void registerModules()
 	{
 		registerModule("MultiLoginBlocker", "au.com.addstar.bpandora.modules.MultiLoginBlocker");
-		registerModule("VanishedHider", "au.com.addstar.bpandora.modules.VanishedPlayerHider", "BungeeChat");
 		registerModule("Restarting", "au.com.addstar.bpandora.modules.Restarting");
-		try{
-			this.getClass().getClassLoader().loadClass("net.md_5.bungee.api.PerformanceStatistics");
-			registerModule("PerfMon", "au.com.addstar.bpandora.modules.Perfmon");
-		}catch (ClassNotFoundException ignored){
-			getLogger().info("Performance Monitor disabled due to missing api.");
-		}
-
-		//TODO: Register additional modules here
+		registerModule("ChatControlMirror", "au.com.addstar.bpandora.modules.ChatControlMirror", "BungeeControl-Red");
 	}
 	
 	@Override
