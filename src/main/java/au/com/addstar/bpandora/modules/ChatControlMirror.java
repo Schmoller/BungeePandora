@@ -69,7 +69,6 @@ public class ChatControlMirror implements Module, Listener
 			}
 
 			if (server != null) {
-				log.info("Sending " + config.outChannel + " message via " + server.getInfo().getName());
 				server.sendData(config.outChannel, event.getData());
 			} else {
 				log.warning("[ChatControlMirror] No valid server found to relay mirror message");
