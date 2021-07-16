@@ -76,8 +76,9 @@ public class ChatControlMirror implements Module, Listener
 
 	public static boolean doChatControlMirror(String type, String channel, String message) {
 		Server server = null;
+
 		// Search for a valid server with a player online
-		for (ProxiedPlayer p : plugin.getProxy().getPlayers()) {
+		for (ProxiedPlayer p : MasterPlugin.getInstance().getProxy().getPlayers()) {
 			if (validServers.contains(p.getServer().getInfo().getName())) {
 				// Found one!
 				server = p.getServer();
