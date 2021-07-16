@@ -2,6 +2,9 @@ package au.com.addstar.bpandora.modules;
 
 import au.com.addstar.bpandora.MasterPlugin;
 import au.com.addstar.bpandora.Module;
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import net.cubespace.Yamler.Config.Comment;
 import net.cubespace.Yamler.Config.YamlConfig;
 import net.md_5.bungee.api.ProxyServer;
@@ -58,22 +61,45 @@ public class ChatControlMirror implements Module, Listener
 	@EventHandler
 	public void onPluginMessage(PluginMessageEvent event) {
 		if (config.inChannel.equals(event.getTag())) {
-			Server server = null;
-			// Search for a valid server with a player online
-			for (ProxiedPlayer p : plugin.getProxy().getPlayers()) {
-				if (validServers.contains(p.getServer().getInfo().getName())) {
-					// Found one!
-					server = p.getServer();
-					break;
-				}
+			try {
+				ByteArrayDataInput in = ByteStreams.newDataInput(event.getData());
+				String type = in.readUTF();
+				String channel = in.readUTF();
+				String msg = in.readUTF();
+				doChatControlMirror(type, channel, msg);
+			} catch (Exception e) {
+				log.warning("[ChatControlMirror] Error reading message: " + e.getLocalizedMessage());
+				e.printStackTrace();
 			}
+		}
+	}
 
-			if (server != null) {
-				server.sendData(config.outChannel, event.getData());
-			} else {
-				log.warning("[ChatControlMirror] No valid server found to relay mirror message");
-				return;
+	public boolean doChatControlMirror(String type, String channel, String message) {
+		Server server = null;
+		// Search for a valid server with a player online
+		for (ProxiedPlayer p : plugin.getProxy().getPlayers()) {
+			if (validServers.contains(p.getServer().getInfo().getName())) {
+				// Found one!
+				server = p.getServer();
+				break;
 			}
+		}
+
+		if (server != null) {
+			try {
+				ByteArrayDataOutput out = ByteStreams.newDataOutput();
+				out.writeUTF(type);
+				out.writeUTF(channel);
+				out.writeUTF(message);
+				server.sendData(config.outChannel, out.toByteArray());
+			} catch (Exception e) {
+				log.warning("[ChatControlMirror] Error sending message: " + e.getLocalizedMessage());
+				e.printStackTrace();
+			}
+			return true;
+		} else {
+			log.warning("[ChatControlMirror] No valid server found to relay mirror message");
+			return false;
 		}
 	}
 
@@ -85,6 +111,6 @@ public class ChatControlMirror implements Module, Listener
 		public String outChannel = "pandora:chatcontrolmirror";
 
 		@Comment("Relay messages to a server on this channel")
-		public String mirrorServers = "hub,survival,skyblock2,limbo";
+		public String mirrorServers = "hub,survival,hardcore,skyblock2,limbo";
 	}
 }
