@@ -22,11 +22,11 @@ import java.util.logging.Logger;
 
 public class ChatControlMirror implements Module, Listener
 {
-	private Logger log;
-	private Plugin plugin;
-	private ChatControlMirrorConfig config;
-	private ProxyServer proxy;
-	private List<String> validServers;
+	private static Plugin plugin;
+	private static ProxyServer proxy;
+	private static Logger log;
+	private static ChatControlMirrorConfig config;
+	private static List<String> validServers;
 
 	@Override
 	public void onEnable()
@@ -74,7 +74,7 @@ public class ChatControlMirror implements Module, Listener
 		}
 	}
 
-	public boolean doChatControlMirror(String type, String channel, String message) {
+	public static boolean doChatControlMirror(String type, String channel, String message) {
 		Server server = null;
 		// Search for a valid server with a player online
 		for (ProxiedPlayer p : plugin.getProxy().getPlayers()) {
