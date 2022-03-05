@@ -4,5 +4,4 @@ description: ${project.description}
 
 main: ${mainClass}
 
-depends: [Yamler]
 softDepends: [BungeeControl-Red]
