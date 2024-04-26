@@ -4,4 +4,3 @@ description: ${project.description}
 
 main: ${mainClass}
 
-softDepends: [BungeeControl-Red]
